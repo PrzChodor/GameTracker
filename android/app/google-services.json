@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "61410650781",
+    "project_id": "gametracker-f3817",
+    "storage_bucket": "gametracker-f3817.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61410650781:android:070894e0cd82124a944274",
+        "android_client_info": {
+          "package_name": "com.chodor.gametracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61410650781-kn5i65qseicdjpkiblqrdjf85jao4sbm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chodor.gametracker",
+            "certificate_hash": "3c5cf168ad68f9e2a40f1fca85dc1fc4c2af9ee2"
+          }
+        },
+        {
+          "client_id": "61410650781-ai5vo98o6ja55skgcckp0m9oli3lng75.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYNdagoIqb7jfO148lFWn7m9x2ero2kNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61410650781-ai5vo98o6ja55skgcckp0m9oli3lng75.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
