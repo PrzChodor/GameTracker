@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gametracker/cubit/authentication/authentication_cubit.dart';
 import 'package:gametracker/cubit/email_verification/email_verification_cubit.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
-import 'package:gametracker/repositories/user_repository.dart';
 
 class VerifyEmail extends StatefulWidget {
   @override
@@ -94,7 +93,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
                             style: Theme.of(context).textTheme.headline5,
                             children: [
                               TextSpan(
-                                text: UserRepository().getEmail(),
+                                text: context
+                                    .read<EmailVerificationCubit>()
+                                    .getEmail(),
                                 style: TextStyle(
                                     color: CustomColors.secondaryColor),
                               ),

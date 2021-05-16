@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gametracker/repositories/user_repository.dart';
+import 'package:gametracker/data/repositories/user_repository.dart';
 
 part 'email_verification_state.dart';
 part 'email_verification_cubit.freezed.dart';
@@ -41,6 +41,10 @@ class EmailVerificationCubit extends Cubit<EmailVerificationState> {
 
     emit(NotVerified(0));
     timer.cancel();
+  }
+
+  String? getEmail() {
+    return UserRepository().getEmail();
   }
 
   @override

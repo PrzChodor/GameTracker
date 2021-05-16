@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class CustomColors {
   static const Color backgroundColor = Color(0xFF18273A);
+  static const Color darkerBackgroundColor = Color(0xFF111B29);
   static const Color primaryColor = Color(0xFFB9CFD4);
   static const Color secondaryColor = Color(0xFFFAC863);
   static const Color errorColor = Color(0xFFFF6961);

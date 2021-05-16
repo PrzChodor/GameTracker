@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:gametracker/helpers/validators.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gametracker/repositories/user_repository.dart';
+import 'package:gametracker/data/repositories/user_repository.dart';
 
 part 'reset_password_state.dart';
 part 'reset_password_cubit.freezed.dart';

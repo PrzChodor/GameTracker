@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gametracker/repositories/user_repository.dart';
+import 'package:gametracker/data/repositories/user_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'authentication_state.dart';

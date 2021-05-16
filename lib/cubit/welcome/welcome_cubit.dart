@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gametracker/repositories/user_repository.dart';
+import 'package:gametracker/data/repositories/user_repository.dart';
 
 part 'welcome_state.dart';
 part 'welcome_cubit.freezed.dart';
