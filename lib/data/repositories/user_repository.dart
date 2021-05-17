@@ -72,10 +72,12 @@ class UserRepository {
   }
 
   Future<void> signOut() async {
-    await Future.wait([
-      _firebaseAuth.signOut(),
-      _googleSignIn.signOut(),
-    ]);
+    if (_firebaseAuth.currentUser != null)
+      await Future.wait([
+        _firebaseAuth.signOut(),
+        _googleSignIn.signOut(),
+        _firebaseAuth.signOut(),
+      ]);
   }
 
   Future<bool> isSignedIn() async {

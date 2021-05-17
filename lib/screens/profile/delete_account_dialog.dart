@@ -100,7 +100,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                                     ),
                                   ],
                                 ),
-                                backgroundColor: CustomColors.errorColor,
+                                backgroundColor: CustomColors.successColor,
                               ),
                             );
                         }).onError((error, stackTrace) {
