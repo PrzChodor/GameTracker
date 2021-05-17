@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gametracker/cubit/authentication/authentication_cubit.dart';
+import 'package:gametracker/data/repositories/game_repository.dart';
 import 'package:gametracker/data/repositories/user_repository.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
 import 'package:gametracker/screens/profile/profile_stats.dart';
+
+import 'delete_account_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -11,14 +14,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.darkerBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
+        child: Container(
+          constraints: BoxConstraints.expand(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -119,29 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: SizedBox(
-                  width: 250,
-                  height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(elevation: 4),
-                    onPressed: () {},
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text('Change password'),
-                        ),
-                        Icon(
-                          Icons.lock,
-                          color: CustomColors.backgroundColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+                padding: const EdgeInsets.only(top: 24.0),
                 child: SizedBox(
                   width: 250,
                   height: 48,
@@ -150,7 +131,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       elevation: 4,
                       primary: CustomColors.errorColor,
                     ),
-                    onPressed: () {},
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => DeleteDialog(),
+                    ),
                     child: Row(
                       children: [
                         Expanded(

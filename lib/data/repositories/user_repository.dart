@@ -83,6 +83,10 @@ class UserRepository {
     return currentUser != null;
   }
 
+  Future<void> deleteUser() async {
+    await _firebaseAuth.currentUser?.delete();
+  }
+
   String? getUsername() {
     return _firebaseAuth.currentUser?.displayName;
   }

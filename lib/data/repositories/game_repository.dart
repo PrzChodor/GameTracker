@@ -274,4 +274,13 @@ class GameRepository {
     }
     return results;
   }
+
+  Future<void> deleteUser() async {
+    var database = _firebaseDatabase.reference();
+    await database
+        .child(
+          'users/${UserRepository().getUid()!}',
+        )
+        .remove();
+  }
 }
