@@ -244,4 +244,34 @@ class GameRepository {
 
     return [added, completed];
   }
+
+  Future<List<Game>> getAddedGames() async {
+    var database = _firebaseDatabase.reference();
+    DataSnapshot added = await database
+        .child(
+          'users/${UserRepository().getUid()!}/collection/playNext',
+        )
+        .once();
+    List<Game> results = [];
+    if (added.value != null) {
+      added.value.forEach((key, value) =>
+          results.add(Game.fromJson(Map<String, dynamic>.from(value))));
+    }
+    return results;
+  }
+
+  Future<List<Game>> getCompletedGames() async {
+    var database = _firebaseDatabase.reference();
+    DataSnapshot added = await database
+        .child(
+          'users/${UserRepository().getUid()!}/collection/completed',
+        )
+        .once();
+    List<Game> results = [];
+    if (added.value != null) {
+      added.value.forEach((key, value) =>
+          results.add(Game.fromJson(Map<String, dynamic>.from(value))));
+    }
+    return results;
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gametracker/cubit/games_tabs/games_tabs_cubit.dart';
 import 'package:gametracker/cubit/home/home_cubit.dart';
 import 'package:gametracker/cubit/profile/profile_cubit.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
@@ -33,45 +34,10 @@ class _ProfileStatsState extends State<ProfileStats> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () => context
-                        .read<HomeCubit>()
-                        .pageChanged(0), //TODO: Change page to completed
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 28),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Played',
-                            style: Theme.of(context).textTheme.headline4!.merge(
-                                  TextStyle(
-                                    color: CustomColors.secondaryColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              state[1].toString(),
-                              style: Theme.of(context).textTheme.headline3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 2,
-                  height: 140,
-                  color: CustomColors.secondaryColor,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () => context
-                        .read<HomeCubit>()
-                        .pageChanged(0), //TODO: Change page to added
+                    onTap: () {
+                      context.read<GamesTabsCubit>().switchTab(false);
+                      context.read<HomeCubit>().pageChanged(0);
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 28),
                       child: Column(
@@ -90,6 +56,43 @@ class _ProfileStatsState extends State<ProfileStats> {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
                               state[0].toString(),
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 2,
+                  height: 140,
+                  color: CustomColors.secondaryColor,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      context.read<GamesTabsCubit>().switchTab(true);
+                      context.read<HomeCubit>().pageChanged(0);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 28),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Played',
+                            style: Theme.of(context).textTheme.headline4!.merge(
+                                  TextStyle(
+                                    color: CustomColors.secondaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              state[1].toString(),
                               style: Theme.of(context).textTheme.headline3,
                             ),
                           ),

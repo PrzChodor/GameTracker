@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gametracker/cubit/game_list_item/game_list_item_cubit.dart';
+import 'package:gametracker/cubit/game_lists/added_list_cubit.dart';
 
 import 'package:gametracker/data/models/game.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
@@ -10,11 +11,13 @@ import 'package:intl/intl.dart';
 class GameListItem extends StatefulWidget {
   final Game game;
   final bool isFromList;
+  final Function()? onStateChange;
 
   const GameListItem({
     Key? key,
     required this.game,
     required this.isFromList,
+    this.onStateChange,
   }) : super(key: key);
 
   @override
@@ -52,11 +55,9 @@ class _GameListItemState extends State<GameListItem> {
                                   game: widget.game,
                                 ),
                               ),
-                            ).then((poppedState) => poppedState != state
-                                ? context
-                                    .read<GameListItemCubit>()
-                                    .emit(poppedState)
-                                : {})
+                            ).then(
+                              (newState) => _reactToPop(newState, state),
+                            )
                         : () => Navigator.pop(context, state),
                     child: SizedBox(
                       height: 147,
@@ -148,9 +149,15 @@ class _GameListItemState extends State<GameListItem> {
                                           Icons.remove,
                                           color: CustomColors.backgroundColor,
                                         ),
-                                        onPressed: () => context
-                                            .read<GameListItemCubit>()
-                                            .removeFromLibrary(widget.game),
+                                        onPressed: () {
+                                          if (widget.onStateChange != null) {
+                                            widget.onStateChange!();
+                                          }
+                                          context
+                                              .read<GameListItemCubit>()
+                                              .removeFromLibrary(widget.game,
+                                                  widget.onStateChange == null);
+                                        },
                                       ),
                                     )
                                   : Container(),
@@ -184,15 +191,33 @@ class _GameListItemState extends State<GameListItem> {
                                     color: CustomColors.backgroundColor,
                                   ),
                                   onPressed: () => state.maybeWhen(
-                                      notAdded: () => context
-                                          .read<GameListItemCubit>()
-                                          .addToLibrary(widget.game),
-                                      added: () => context
-                                          .read<GameListItemCubit>()
-                                          .completeGame(widget.game),
-                                      completed: () => context
-                                          .read<GameListItemCubit>()
-                                          .notCompleted(widget.game),
+                                      notAdded: () {
+                                        if (widget.onStateChange != null) {
+                                          widget.onStateChange!();
+                                        }
+                                        context
+                                            .read<GameListItemCubit>()
+                                            .addToLibrary(widget.game,
+                                                widget.onStateChange == null);
+                                      },
+                                      added: () {
+                                        if (widget.onStateChange != null) {
+                                          widget.onStateChange!();
+                                        }
+                                        context
+                                            .read<GameListItemCubit>()
+                                            .completeGame(widget.game,
+                                                widget.onStateChange == null);
+                                      },
+                                      completed: () {
+                                        if (widget.onStateChange != null) {
+                                          widget.onStateChange!();
+                                        }
+                                        context
+                                            .read<GameListItemCubit>()
+                                            .notCompleted(widget.game,
+                                                widget.onStateChange == null);
+                                      },
                                       orElse: () {}),
                                 ),
                               ),
@@ -209,5 +234,16 @@ class _GameListItemState extends State<GameListItem> {
         },
       ),
     );
+  }
+
+  void _reactToPop(
+      GameListItemState newState, GameListItemState previousState) {
+    if (newState != previousState) {
+      if (widget.onStateChange != null) {
+        widget.onStateChange!();
+      } else {
+        context.read<GameListItemCubit>().emit(newState);
+      }
+    }
   }
 }

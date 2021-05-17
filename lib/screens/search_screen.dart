@@ -84,57 +84,54 @@ class _SearchScreenState extends State<SearchScreen> {
                     )
                   : null,
               backgroundColor: CustomColors.darkerBackgroundColor,
-              body: SafeArea(
-                child: state.maybeMap(
-                  initial: (_) => Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: SearchField(
-                      onSubmitted: (term) =>
-                          context.read<SearchCubit>().searchForGames(term),
-                    ),
+              body: state.maybeMap(
+                initial: (_) => Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: SearchField(
+                    onSubmitted: (term) =>
+                        context.read<SearchCubit>().searchForGames(term),
                   ),
-                  searching: (_) => Center(
-                      child: SizedBox(
-                    height: 128,
-                    width: 128,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 8,
-                      valueColor:
-                          AlwaysStoppedAnimation(CustomColors.secondaryColor),
-                    ),
-                  )),
-                  orElse: () => NotificationListener(
-                    onNotification: (notification) {
-                      if (notification is OverscrollIndicatorNotification) {
-                        notification.disallowGlow();
-                      }
+                ),
+                searching: (_) => Center(
+                    child: SizedBox(
+                  height: 128,
+                  width: 128,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 8,
+                    valueColor:
+                        AlwaysStoppedAnimation(CustomColors.secondaryColor),
+                  ),
+                )),
+                orElse: () => NotificationListener(
+                  onNotification: (notification) {
+                    if (notification is OverscrollIndicatorNotification) {
+                      notification.disallowGlow();
+                    }
 
-                      if (notification is ScrollEndNotification &&
-                          _scrollController.position.extentAfter == 0 &&
-                          state is Results) {
-                        print(state);
-                        context.read<SearchCubit>().getNextPage();
-                      }
+                    if (notification is ScrollEndNotification &&
+                        _scrollController.position.extentAfter == 0 &&
+                        state is Results) {
+                      context.read<SearchCubit>().getNextPage();
+                    }
 
-                      return false;
-                    },
-                    child: AnimatedList(
-                      controller: _scrollController,
-                      key: _listKey,
-                      padding: EdgeInsets.all(6.0),
-                      initialItemCount:
-                          (state is Results ? state.games.length : 0) + 1,
-                      itemBuilder: (context, index, animation) =>
-                          SlideTransition(
-                        position: CurvedAnimation(
-                          curve: Curves.easeOut,
-                          parent: animation,
-                        ).drive((Tween<Offset>(
-                          begin: Offset(0, 5),
-                          end: Offset(0, 0),
-                        ))),
-                        child: _getListItem(context, index, state.games),
-                      ),
+                    return false;
+                  },
+                  child: AnimatedList(
+                    controller: _scrollController,
+                    key: _listKey,
+                    padding: EdgeInsets.all(6.0),
+                    initialItemCount:
+                        (state is Results ? state.games.length : 0) + 1,
+                    itemBuilder: (context, index, animation) =>
+                        SlideTransition(
+                      position: CurvedAnimation(
+                        curve: Curves.easeOut,
+                        parent: animation,
+                      ).drive((Tween<Offset>(
+                        begin: Offset(0, 5),
+                        end: Offset(0, 0),
+                      ))),
+                      child: _getListItem(context, index, state.games),
                     ),
                   ),
                 ),

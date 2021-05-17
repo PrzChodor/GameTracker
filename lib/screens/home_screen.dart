@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gametracker/cubit/game_lists/added_list_cubit.dart';
+import 'package:gametracker/cubit/game_lists/completed_list_cubit.dart';
+import 'package:gametracker/cubit/games_tabs/games_tabs_cubit.dart';
 import 'package:gametracker/cubit/home/home_cubit.dart';
 import 'package:gametracker/cubit/profile/profile_cubit.dart';
 import 'package:gametracker/cubit/search/search_cubit.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
+import 'package:gametracker/screens/games/games_screen.dart';
 import 'package:gametracker/screens/profile/profile_screen.dart';
 import 'package:gametracker/screens/search_screen.dart';
 
@@ -25,6 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         BlocProvider<ProfileCubit>(
           create: (context) => ProfileCubit(),
+        ),
+        BlocProvider<GamesTabsCubit>(
+          create: (context) => GamesTabsCubit(),
         ),
       ],
       child: SafeArea(
@@ -63,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               body: state.when(
-                games: () => Container(),
+                games: () => GamesScreen(),
                 search: () => SearchScreen(),
                 profile: () => ProfileScreen(),
               ),

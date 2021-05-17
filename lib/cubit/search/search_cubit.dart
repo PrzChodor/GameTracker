@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gametracker/data/models/game.dart';
 import 'package:gametracker/data/repositories/game_repository.dart';
@@ -38,7 +38,6 @@ class SearchCubit extends Cubit<SearchState> {
 
   Future<void> getNextPage() async {
     if (currentPage + 1 == _pageCount) return;
-    print(_pageCount);
     emit(LoadingNextPage(state.games, state.isButtonDisplayed));
     await GameRepository()
         .getNextPage(++currentPage * 10, _currentTerm)

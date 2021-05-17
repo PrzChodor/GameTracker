@@ -23,23 +23,31 @@ class GameListItemCubit extends Cubit<GameListItemState> {
     emit(NotAdded());
   }
 
-  Future<void> addToLibrary(Game game) async {
+  Future<void> addToLibrary(Game game, bool changeState) async {
     await GameRepository().addGameToLibrary(game);
-    emit(Added());
+    if (changeState) {
+      emit(Added());
+    }
   }
 
-  Future<void> completeGame(Game game) async {
+  Future<void> completeGame(Game game, bool changeState) async {
     await GameRepository().completeGame(game);
-    emit(Completed());
+    if (changeState) {
+      emit(Completed());
+    }
   }
 
-  Future<void> removeFromLibrary(Game game) async {
+  Future<void> removeFromLibrary(Game game, bool changeState) async {
     await GameRepository().removeFromLibrary(game);
-    emit(NotAdded());
+    if (changeState) {
+      emit(NotAdded());
+    }
   }
 
-  Future<void> notCompleted(Game game) async {
+  Future<void> notCompleted(Game game, bool changeState) async {
     await GameRepository().notCompleted(game);
-    emit(Added());
+    if (changeState) {
+      emit(Added());
+    }
   }
 }
