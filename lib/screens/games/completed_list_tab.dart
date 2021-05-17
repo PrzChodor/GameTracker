@@ -73,7 +73,7 @@ class _CompletedListTabState extends State<CompletedListTab> {
         curve: Curves.easeOut,
         parent: animation,
       ).drive((Tween<Offset>(
-        begin: Offset(1, 0),
+        begin: Offset(-1, 0),
         end: Offset(0, 0),
       ))),
       child: GameListItem(
