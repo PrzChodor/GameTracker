@@ -65,7 +65,7 @@ class GameRepository {
       },
       body: '''
             fields name, rating, summary, first_release_date, genres.name, platforms.abbreviation, cover.image_id, screenshots.image_id, involved_companies.company.name, involved_companies.developer;
-            where summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null & rating != null;
+            where summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null;
             search "$term";
             limit 10;
           ''',
@@ -93,7 +93,7 @@ class GameRepository {
             'Bearer ${_remoteConfig.getString('IGDB_ACCESS_TOKEN')}',
       },
       body: '''
-            where summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null & rating != null;
+            where summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null;
             search "$term";
           ''',
     );
@@ -113,13 +113,15 @@ class GameRepository {
         'Authorization':
             'Bearer ${_remoteConfig.getString('IGDB_ACCESS_TOKEN')}',
       },
-      body: term != null ? '''
+      body: term != null
+          ? '''
             fields name, rating, summary, first_release_date, genres.name, platforms.abbreviation, cover.image_id, screenshots.image_id, involved_companies.company.name, involved_companies.developer;
-            where summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null & rating != null;
+            where summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null;
             search "$term";
             limit 10;
             offset $pageStart;
-          ''' : '''
+          '''
+          : '''
             fields name, rating, summary, first_release_date, genres.name, platforms.abbreviation, cover.image_id, screenshots.image_id, involved_companies.company.name, involved_companies.developer;
             where name ~ *""* & summary != null & cover != null & involved_companies != null & screenshots != null & first_release_date != null & follows != null;
             limit 10;
@@ -222,5 +224,24 @@ class GameRepository {
           'users/${UserRepository().getUid()!}/collection/playNext/${game.id}',
         )
         .remove();
+  }
+
+  Future<List<int>> getStats() async {
+    var database = _firebaseDatabase.reference();
+    int completed = await database
+        .child(
+          'users/${UserRepository().getUid()!}/collection/completed',
+        )
+        .once()
+        .then((response) => response.value != null ? response.value.length : 0);
+    int added = await database
+        .child(
+          'users/${UserRepository().getUid()!}/collection/playNext',
+        )
+        .once()
+        .then((response) =>
+            (response.value != null ? response.value.length : 0) + completed);
+
+    return [added, completed];
   }
 }

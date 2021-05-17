@@ -153,39 +153,6 @@ class _GameListItemState extends State<GameListItem> {
                                             .removeFromLibrary(widget.game),
                                       ),
                                     )
-                                  // ? Padding(
-                                  //     padding: const EdgeInsets.symmetric(
-                                  //         horizontal: 6.0, vertical: 10),
-                                  //     child: PopupMenuButton(
-                                  //       onSelected: (value) => state.maybeWhen(
-                                  //         added: () => context
-                                  //             .read<GameListItemCubit>()
-                                  //             .removeFromLibrary(widget.game),
-                                  //         orElse: () {},
-                                  //       ),
-                                  //       offset: Offset(-10, -50),
-                                  //       color:
-                                  //           CustomColors.darkerBackgroundColor,
-                                  //       child: Icon(Icons.more_vert),
-                                  //       itemBuilder: (context) => [
-                                  //         PopupMenuItem(
-                                  //           value: 0,
-                                  //           child: state.maybeWhen(
-                                  //             added: () => Row(children: [
-                                  //               Padding(
-                                  //                 padding:
-                                  //                     const EdgeInsets.only(
-                                  //                         right: 16.0),
-                                  //                 child: Icon(Icons.delete),
-                                  //               ),
-                                  //               Text('Delete from library')
-                                  //             ]),
-                                  //             orElse: () {},
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     ),
-                                  //   )
                                   : Container(),
                               Spacer(),
                               Container(
@@ -207,7 +174,6 @@ class _GameListItemState extends State<GameListItem> {
                                   padding: const EdgeInsets.all(0),
                                   constraints: BoxConstraints(),
                                   splashRadius: 16,
-                                  highlightColor: CustomColors.disabledColor,
                                   icon: Icon(
                                     state.maybeWhen(
                                         notAdded: () => Icons.add_rounded,

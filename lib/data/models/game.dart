@@ -33,9 +33,9 @@ class Game with _$Game {
             'https://images.igdb.com/igdb/image/upload/t_cover_big/${json['cover']['image_id']}.jpg',
         screenshots: json['screenshots']
             .map<String>((image) =>
-                'https://images.igdb.com/igdb/image/upload/t_1080p/${image['image_id']}.jpg')
+                'https://images.igdb.com/igdb/image/upload/t_screenshot_huge/${image['image_id']}.jpg')
             .toList(),
-        rating: json['rating'],
+        rating: json['rating'] != null ? json['rating'] : -1,
         date: json['first_release_date'],
         summary: json['summary'],
         genres: json['genres'] != null

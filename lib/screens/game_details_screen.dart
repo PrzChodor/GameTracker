@@ -67,14 +67,6 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                                       return Center(
                                         child: SizedBox(
                                           child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
                                             valueColor: AlwaysStoppedAnimation(
                                                 CustomColors.secondaryColor),
                                           ),
@@ -142,8 +134,8 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                                                     .darkerBackgroundColor,
                                                 valueColor:
                                                     AlwaysStoppedAnimation(
-                                                        CustomColors
-                                                            .secondaryColor),
+                                                  CustomColors.secondaryColor,
+                                                ),
                                               ),
                                             ),
                                             Text(

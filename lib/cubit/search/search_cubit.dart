@@ -8,82 +8,65 @@ part 'search_state.dart';
 part 'search_cubit.freezed.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(Initial(false));
+  SearchCubit() : super(Initial([], false));
+
+  int currentPage = 0;
+  double currentScrollOffset = 0.0;
 
   int _pageCount = 1;
-  int currentPage = 0;
   String? _currentTerm;
-  bool _isLoading = false;
 
   Future<void> getPopular() async {
-    emit(Searching(false));
-    _isLoading = true;
+    emit(Searching([], false));
     await GameRepository().getPopular().then((results) async {
       _pageCount = 10;
       currentPage = 0;
       _currentTerm = null;
-      emit(Results([], false, false, state.isButtonDisplayed));
-      for (var result in results) {
-        List<Game> updatedList = [];
-        updatedList.addAll((state as Results).games);
-        updatedList.add(result);
-        emit(Results(updatedList, true, false, state.isButtonDisplayed));
-        await Future.delayed(Duration(milliseconds: 150));
-      }
+      await loadResults(results);
     });
-    _isLoading = false;
   }
 
   Future<void> searchForGames(String term) async {
-    emit(Searching(false));
-    _isLoading = true;
+    emit(Searching([], false));
     await GameRepository().searchForGames(term).then((results) async {
       _pageCount = ((results[1] as int) / 10).ceil();
       currentPage = 0;
       _currentTerm = term;
-
-      emit(Results([], false, false, state.isButtonDisplayed));
-      for (var result in results[0]) {
-        List<Game> updatedList = [];
-        updatedList.addAll((state as Results).games);
-        updatedList.add(result);
-        emit(Results(updatedList, true, false, state.isButtonDisplayed));
-        await Future.delayed(Duration(milliseconds: 150));
-      }
+      await loadResults(results[0]);
     });
-    _isLoading = false;
   }
 
   Future<void> getNextPage() async {
-    if (currentPage + 1 == _pageCount || _isLoading) return;
-
-    _isLoading = true;
-    emit(Results(
-        (state as Results).games, false, true, state.isButtonDisplayed));
+    if (currentPage + 1 == _pageCount) return;
+    print(_pageCount);
+    emit(LoadingNextPage(state.games, state.isButtonDisplayed));
     await GameRepository()
         .getNextPage(++currentPage * 10, _currentTerm)
         .then((results) async {
-      for (var result in results) {
-        List<Game> updatedList = [];
-        updatedList.addAll((state as Results).games);
-        updatedList.add(result);
-        emit(Results(updatedList, true, false, state.isButtonDisplayed));
-        await Future.delayed(Duration(milliseconds: 150));
-      }
+      await loadResults(results);
     });
-    _isLoading = false;
+  }
+
+  Future<void> loadResults(List<Game> results) async {
+    for (var result in results) {
+      List<Game> updatedList = [];
+      updatedList.addAll(state.games);
+      updatedList.add(result);
+      emit(AddingResults(updatedList, state.isButtonDisplayed));
+      await Future.delayed(Duration(milliseconds: 150));
+    }
+    emit(Results(state.games, state.isButtonDisplayed));
   }
 
   void checkScrollOffset(ScrollController controller) {
     if (state is Results) {
-      if (controller.offset >= 500 && !(state as Results).isButtonDisplayed) {
-        emit(Results((state as Results).games, false,
-            (state as Results).isLoadingNext, true));
+      currentScrollOffset = controller.offset;
+      if (currentScrollOffset >= 500 && !(state as Results).isButtonDisplayed) {
+        emit(Results((state as Results).games, true));
       }
 
-      if (controller.offset < 500 && (state as Results).isButtonDisplayed) {
-        emit(Results((state as Results).games, false,
-            (state as Results).isLoadingNext, false));
+      if (currentScrollOffset < 500 && (state as Results).isButtonDisplayed) {
+        emit(Results((state as Results).games, false));
       }
     }
   }

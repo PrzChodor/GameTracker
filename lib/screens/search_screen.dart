@@ -13,167 +13,135 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
-  final ScrollController _scrollController = ScrollController();
-  final SearchCubit _searchCubit = SearchCubit();
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
-    _scrollController
-        .addListener(() => _searchCubit.checkScrollOffset(_scrollController));
+    _scrollController = ScrollController(
+        initialScrollOffset: context.read<SearchCubit>().currentScrollOffset);
+    _scrollController.addListener(
+        () => context.read<SearchCubit>().checkScrollOffset(_scrollController));
     super.initState();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _searchCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _searchCubit..getPopular(),
-      child: BlocListener<SearchCubit, SearchState>(
-        listener: (context, state) async {
-          if (state is Results) {
-            if (state.isLoadingNext) {
-              ScaffoldMessenger.of(context)
-                ..showSnackBar(
-                  SnackBar(
-                    backgroundColor: CustomColors.secondaryColor,
-                    duration: Duration(days: 365),
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Loading more...',
-                          style: TextStyle(color: CustomColors.backgroundColor),
-                        ),
-                        CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              CustomColors.backgroundColor),
-                        ),
-                      ],
+    return BlocListener<SearchCubit, SearchState>(
+      listener: (context, state) async {
+        if (state is LoadingNextPage) {
+          ScaffoldMessenger.of(context)
+            ..showSnackBar(
+              SnackBar(
+                backgroundColor: CustomColors.secondaryColor,
+                duration: Duration(days: 365),
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Loading more...',
+                      style: TextStyle(color: CustomColors.backgroundColor),
                     ),
-                  ),
-                );
-            } else {
-              ScaffoldMessenger.of(context)..hideCurrentSnackBar();
-
-              if (state.isNewAdded) {
-                WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                    _listKey.currentState?.insertItem(state.games.length,
-                        duration: Duration(milliseconds: 500)));
-              }
-            }
-          }
-        },
-        child: BlocBuilder<SearchCubit, SearchState>(
-          builder: (context, state) {
-            return SafeArea(
-              child: Scaffold(
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerTop,
-                floatingActionButton: state.isButtonDisplayed
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FloatingActionButton(
-                          onPressed: _scrollToTop,
-                          child: Icon(Icons.arrow_upward_rounded),
-                          foregroundColor: CustomColors.backgroundColor,
-                          backgroundColor: CustomColors.secondaryColor,
-                          elevation: 4.0,
-                        ),
-                      )
-                    : null,
-                backgroundColor: CustomColors.darkerBackgroundColor,
-                bottomNavigationBar: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: BottomNavigationBar(
-                    backgroundColor: CustomColors.backgroundColor,
-                    selectedItemColor: CustomColors.secondaryColor,
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.sports_esports),
-                        label: 'Games',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.search),
-                        label: 'Search',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.person),
-                        label: 'Profile',
-                      )
-                    ],
-                  ),
+                    CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          CustomColors.backgroundColor),
+                    ),
+                  ],
                 ),
-                body: SafeArea(
-                  child: state.map(
-                    initial: (currentState) => Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: SearchField(
-                        onSubmitted: (term) =>
-                            context.read<SearchCubit>().searchForGames(term),
+              ),
+            );
+        } else {
+          ScaffoldMessenger.of(context)..hideCurrentSnackBar();
+        }
+
+        if (state is AddingResults) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) =>
+              _listKey.currentState?.insertItem(state.games.length,
+                  duration: Duration(milliseconds: 500)));
+        }
+      },
+      child: BlocBuilder<SearchCubit, SearchState>(
+        builder: (context, state) {
+          return SafeArea(
+            child: Scaffold(
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerTop,
+              floatingActionButton: state.isButtonDisplayed
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FloatingActionButton(
+                        onPressed: _scrollToTop,
+                        child: Icon(Icons.arrow_upward_rounded),
+                        foregroundColor: CustomColors.backgroundColor,
+                        backgroundColor: CustomColors.secondaryColor,
+                        elevation: 4.0,
                       ),
+                    )
+                  : null,
+              backgroundColor: CustomColors.darkerBackgroundColor,
+              body: SafeArea(
+                child: state.maybeMap(
+                  initial: (_) => Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: SearchField(
+                      onSubmitted: (term) =>
+                          context.read<SearchCubit>().searchForGames(term),
                     ),
-                    searching: (currentState) => Center(
-                        child: SizedBox(
-                      height: 128,
-                      width: 128,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 8,
-                        valueColor:
-                            AlwaysStoppedAnimation(CustomColors.secondaryColor),
-                      ),
-                    )),
-                    results: (currentState) => NotificationListener(
-                      onNotification: (notification) {
-                        if (notification is OverscrollIndicatorNotification) {
-                          notification.disallowGlow();
-                        }
+                  ),
+                  searching: (_) => Center(
+                      child: SizedBox(
+                    height: 128,
+                    width: 128,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 8,
+                      valueColor:
+                          AlwaysStoppedAnimation(CustomColors.secondaryColor),
+                    ),
+                  )),
+                  orElse: () => NotificationListener(
+                    onNotification: (notification) {
+                      if (notification is OverscrollIndicatorNotification) {
+                        notification.disallowGlow();
+                      }
 
-                        if (notification is ScrollEndNotification &&
-                            _scrollController.position.extentAfter == 0 &&
-                            state is Results) {
-                          context.read<SearchCubit>().getNextPage();
-                        }
+                      if (notification is ScrollEndNotification &&
+                          _scrollController.position.extentAfter == 0 &&
+                          state is Results) {
+                        print(state);
+                        context.read<SearchCubit>().getNextPage();
+                      }
 
-                        return false;
-                      },
-                      child: AnimatedList(
-                        controller: _scrollController,
-                        key: _listKey,
-                        padding: EdgeInsets.all(6.0),
-                        initialItemCount: 1,
-                        itemBuilder: (context, index, animation) =>
-                            SlideTransition(
-                          position: CurvedAnimation(
-                            curve: Curves.easeOut,
-                            parent: animation,
-                          ).drive((Tween<Offset>(
-                            begin: Offset(0, 5),
-                            end: Offset(0, 0),
-                          ))),
-                          child:
-                              _getListItem(context, index, currentState.games),
-                        ),
+                      return false;
+                    },
+                    child: AnimatedList(
+                      controller: _scrollController,
+                      key: _listKey,
+                      padding: EdgeInsets.all(6.0),
+                      initialItemCount:
+                          (state is Results ? state.games.length : 0) + 1,
+                      itemBuilder: (context, index, animation) =>
+                          SlideTransition(
+                        position: CurvedAnimation(
+                          curve: Curves.easeOut,
+                          parent: animation,
+                        ).drive((Tween<Offset>(
+                          begin: Offset(0, 5),
+                          end: Offset(0, 0),
+                        ))),
+                        child: _getListItem(context, index, state.games),
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -6,7 +6,6 @@ part of 'game.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-// ignore: non_constant_identifier_names
 _$_Game _$_$_GameFromJson(Map<String, dynamic> json) {
   return _$_Game(
     id: json['id'] as int,
@@ -24,7 +23,6 @@ _$_Game _$_$_GameFromJson(Map<String, dynamic> json) {
   );
 }
 
-// ignore: non_constant_identifier_names
 Map<String, dynamic> _$_$_GameToJson(_$_Game instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

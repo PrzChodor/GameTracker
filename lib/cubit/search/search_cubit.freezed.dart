@@ -16,24 +16,37 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SearchStateTearOff {
   const _$SearchStateTearOff();
 
-  Initial initial(bool isButtonDisplayed) {
+  Initial initial(List<Game> games, bool isButtonDisplayed) {
     return Initial(
+      games,
       isButtonDisplayed,
     );
   }
 
-  Searching searching(bool isButtonDisplayed) {
+  Searching searching(List<Game> games, bool isButtonDisplayed) {
     return Searching(
+      games,
       isButtonDisplayed,
     );
   }
 
-  Results results(List<Game> games, bool isNewAdded, bool isLoadingNext,
-      bool isButtonDisplayed) {
+  Results results(List<Game> games, bool isButtonDisplayed) {
     return Results(
       games,
-      isNewAdded,
-      isLoadingNext,
+      isButtonDisplayed,
+    );
+  }
+
+  LoadingNextPage loadingNextPage(List<Game> games, bool isButtonDisplayed) {
+    return LoadingNextPage(
+      games,
+      isButtonDisplayed,
+    );
+  }
+
+  AddingResults addingResults(List<Game> games, bool isButtonDisplayed) {
+    return AddingResults(
+      games,
       isButtonDisplayed,
     );
   }
@@ -44,24 +57,28 @@ const $SearchState = _$SearchStateTearOff();
 
 /// @nodoc
 mixin _$SearchState {
+  List<Game> get games => throw _privateConstructorUsedError;
   bool get isButtonDisplayed => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonDisplayed) initial,
-    required TResult Function(bool isButtonDisplayed) searching,
-    required TResult Function(List<Game> games, bool isNewAdded,
-            bool isLoadingNext, bool isButtonDisplayed)
-        results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) initial,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        searching,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        loadingNextPage,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        addingResults,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonDisplayed)? initial,
-    TResult Function(bool isButtonDisplayed)? searching,
-    TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
-            bool isButtonDisplayed)?
-        results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? initial,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? loadingNextPage,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? addingResults,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -70,6 +87,8 @@ mixin _$SearchState {
     required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
+    required TResult Function(LoadingNextPage value) loadingNextPage,
+    required TResult Function(AddingResults value) addingResults,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -77,6 +96,8 @@ mixin _$SearchState {
     TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
+    TResult Function(LoadingNextPage value)? loadingNextPage,
+    TResult Function(AddingResults value)? addingResults,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -91,7 +112,7 @@ abstract class $SearchStateCopyWith<$Res> {
   factory $SearchStateCopyWith(
           SearchState value, $Res Function(SearchState) then) =
       _$SearchStateCopyWithImpl<$Res>;
-  $Res call({bool isButtonDisplayed});
+  $Res call({List<Game> games, bool isButtonDisplayed});
 }
 
 /// @nodoc
@@ -104,9 +125,14 @@ class _$SearchStateCopyWithImpl<$Res> implements $SearchStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? games = freezed,
     Object? isButtonDisplayed = freezed,
   }) {
     return _then(_value.copyWith(
+      games: games == freezed
+          ? _value.games
+          : games // ignore: cast_nullable_to_non_nullable
+              as List<Game>,
       isButtonDisplayed: isButtonDisplayed == freezed
           ? _value.isButtonDisplayed
           : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
@@ -120,7 +146,7 @@ abstract class $InitialCopyWith<$Res> implements $SearchStateCopyWith<$Res> {
   factory $InitialCopyWith(Initial value, $Res Function(Initial) then) =
       _$InitialCopyWithImpl<$Res>;
   @override
-  $Res call({bool isButtonDisplayed});
+  $Res call({List<Game> games, bool isButtonDisplayed});
 }
 
 /// @nodoc
@@ -134,9 +160,14 @@ class _$InitialCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? games = freezed,
     Object? isButtonDisplayed = freezed,
   }) {
     return _then(Initial(
+      games == freezed
+          ? _value.games
+          : games // ignore: cast_nullable_to_non_nullable
+              as List<Game>,
       isButtonDisplayed == freezed
           ? _value.isButtonDisplayed
           : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
@@ -148,20 +179,24 @@ class _$InitialCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Initial implements Initial {
-  const _$Initial(this.isButtonDisplayed);
+  const _$Initial(this.games, this.isButtonDisplayed);
 
+  @override
+  final List<Game> games;
   @override
   final bool isButtonDisplayed;
 
   @override
   String toString() {
-    return 'SearchState.initial(isButtonDisplayed: $isButtonDisplayed)';
+    return 'SearchState.initial(games: $games, isButtonDisplayed: $isButtonDisplayed)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is Initial &&
+            (identical(other.games, games) ||
+                const DeepCollectionEquality().equals(other.games, games)) &&
             (identical(other.isButtonDisplayed, isButtonDisplayed) ||
                 const DeepCollectionEquality()
                     .equals(other.isButtonDisplayed, isButtonDisplayed)));
@@ -170,6 +205,7 @@ class _$Initial implements Initial {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(games) ^
       const DeepCollectionEquality().hash(isButtonDisplayed);
 
   @JsonKey(ignore: true)
@@ -180,27 +216,30 @@ class _$Initial implements Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonDisplayed) initial,
-    required TResult Function(bool isButtonDisplayed) searching,
-    required TResult Function(List<Game> games, bool isNewAdded,
-            bool isLoadingNext, bool isButtonDisplayed)
-        results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) initial,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        searching,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        loadingNextPage,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        addingResults,
   }) {
-    return initial(isButtonDisplayed);
+    return initial(games, isButtonDisplayed);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonDisplayed)? initial,
-    TResult Function(bool isButtonDisplayed)? searching,
-    TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
-            bool isButtonDisplayed)?
-        results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? initial,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? loadingNextPage,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? addingResults,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(isButtonDisplayed);
+      return initial(games, isButtonDisplayed);
     }
     return orElse();
   }
@@ -211,6 +250,8 @@ class _$Initial implements Initial {
     required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
+    required TResult Function(LoadingNextPage value) loadingNextPage,
+    required TResult Function(AddingResults value) addingResults,
   }) {
     return initial(this);
   }
@@ -221,6 +262,8 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
+    TResult Function(LoadingNextPage value)? loadingNextPage,
+    TResult Function(AddingResults value)? addingResults,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -231,8 +274,10 @@ class _$Initial implements Initial {
 }
 
 abstract class Initial implements SearchState {
-  const factory Initial(bool isButtonDisplayed) = _$Initial;
+  const factory Initial(List<Game> games, bool isButtonDisplayed) = _$Initial;
 
+  @override
+  List<Game> get games => throw _privateConstructorUsedError;
   @override
   bool get isButtonDisplayed => throw _privateConstructorUsedError;
   @override
@@ -245,7 +290,7 @@ abstract class $SearchingCopyWith<$Res> implements $SearchStateCopyWith<$Res> {
   factory $SearchingCopyWith(Searching value, $Res Function(Searching) then) =
       _$SearchingCopyWithImpl<$Res>;
   @override
-  $Res call({bool isButtonDisplayed});
+  $Res call({List<Game> games, bool isButtonDisplayed});
 }
 
 /// @nodoc
@@ -259,9 +304,14 @@ class _$SearchingCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? games = freezed,
     Object? isButtonDisplayed = freezed,
   }) {
     return _then(Searching(
+      games == freezed
+          ? _value.games
+          : games // ignore: cast_nullable_to_non_nullable
+              as List<Game>,
       isButtonDisplayed == freezed
           ? _value.isButtonDisplayed
           : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
@@ -273,20 +323,24 @@ class _$SearchingCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Searching implements Searching {
-  const _$Searching(this.isButtonDisplayed);
+  const _$Searching(this.games, this.isButtonDisplayed);
 
+  @override
+  final List<Game> games;
   @override
   final bool isButtonDisplayed;
 
   @override
   String toString() {
-    return 'SearchState.searching(isButtonDisplayed: $isButtonDisplayed)';
+    return 'SearchState.searching(games: $games, isButtonDisplayed: $isButtonDisplayed)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is Searching &&
+            (identical(other.games, games) ||
+                const DeepCollectionEquality().equals(other.games, games)) &&
             (identical(other.isButtonDisplayed, isButtonDisplayed) ||
                 const DeepCollectionEquality()
                     .equals(other.isButtonDisplayed, isButtonDisplayed)));
@@ -295,6 +349,7 @@ class _$Searching implements Searching {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(games) ^
       const DeepCollectionEquality().hash(isButtonDisplayed);
 
   @JsonKey(ignore: true)
@@ -305,27 +360,30 @@ class _$Searching implements Searching {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonDisplayed) initial,
-    required TResult Function(bool isButtonDisplayed) searching,
-    required TResult Function(List<Game> games, bool isNewAdded,
-            bool isLoadingNext, bool isButtonDisplayed)
-        results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) initial,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        searching,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        loadingNextPage,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        addingResults,
   }) {
-    return searching(isButtonDisplayed);
+    return searching(games, isButtonDisplayed);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonDisplayed)? initial,
-    TResult Function(bool isButtonDisplayed)? searching,
-    TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
-            bool isButtonDisplayed)?
-        results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? initial,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? loadingNextPage,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? addingResults,
     required TResult orElse(),
   }) {
     if (searching != null) {
-      return searching(isButtonDisplayed);
+      return searching(games, isButtonDisplayed);
     }
     return orElse();
   }
@@ -336,6 +394,8 @@ class _$Searching implements Searching {
     required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
+    required TResult Function(LoadingNextPage value) loadingNextPage,
+    required TResult Function(AddingResults value) addingResults,
   }) {
     return searching(this);
   }
@@ -346,6 +406,8 @@ class _$Searching implements Searching {
     TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
+    TResult Function(LoadingNextPage value)? loadingNextPage,
+    TResult Function(AddingResults value)? addingResults,
     required TResult orElse(),
   }) {
     if (searching != null) {
@@ -356,8 +418,11 @@ class _$Searching implements Searching {
 }
 
 abstract class Searching implements SearchState {
-  const factory Searching(bool isButtonDisplayed) = _$Searching;
+  const factory Searching(List<Game> games, bool isButtonDisplayed) =
+      _$Searching;
 
+  @override
+  List<Game> get games => throw _privateConstructorUsedError;
   @override
   bool get isButtonDisplayed => throw _privateConstructorUsedError;
   @override
@@ -371,11 +436,7 @@ abstract class $ResultsCopyWith<$Res> implements $SearchStateCopyWith<$Res> {
   factory $ResultsCopyWith(Results value, $Res Function(Results) then) =
       _$ResultsCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {List<Game> games,
-      bool isNewAdded,
-      bool isLoadingNext,
-      bool isButtonDisplayed});
+  $Res call({List<Game> games, bool isButtonDisplayed});
 }
 
 /// @nodoc
@@ -390,8 +451,6 @@ class _$ResultsCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? games = freezed,
-    Object? isNewAdded = freezed,
-    Object? isLoadingNext = freezed,
     Object? isButtonDisplayed = freezed,
   }) {
     return _then(Results(
@@ -399,14 +458,6 @@ class _$ResultsCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
           ? _value.games
           : games // ignore: cast_nullable_to_non_nullable
               as List<Game>,
-      isNewAdded == freezed
-          ? _value.isNewAdded
-          : isNewAdded // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoadingNext == freezed
-          ? _value.isLoadingNext
-          : isLoadingNext // ignore: cast_nullable_to_non_nullable
-              as bool,
       isButtonDisplayed == freezed
           ? _value.isButtonDisplayed
           : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
@@ -418,21 +469,16 @@ class _$ResultsCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Results implements Results {
-  const _$Results(
-      this.games, this.isNewAdded, this.isLoadingNext, this.isButtonDisplayed);
+  const _$Results(this.games, this.isButtonDisplayed);
 
   @override
   final List<Game> games;
-  @override
-  final bool isNewAdded;
-  @override
-  final bool isLoadingNext;
   @override
   final bool isButtonDisplayed;
 
   @override
   String toString() {
-    return 'SearchState.results(games: $games, isNewAdded: $isNewAdded, isLoadingNext: $isLoadingNext, isButtonDisplayed: $isButtonDisplayed)';
+    return 'SearchState.results(games: $games, isButtonDisplayed: $isButtonDisplayed)';
   }
 
   @override
@@ -441,12 +487,6 @@ class _$Results implements Results {
         (other is Results &&
             (identical(other.games, games) ||
                 const DeepCollectionEquality().equals(other.games, games)) &&
-            (identical(other.isNewAdded, isNewAdded) ||
-                const DeepCollectionEquality()
-                    .equals(other.isNewAdded, isNewAdded)) &&
-            (identical(other.isLoadingNext, isLoadingNext) ||
-                const DeepCollectionEquality()
-                    .equals(other.isLoadingNext, isLoadingNext)) &&
             (identical(other.isButtonDisplayed, isButtonDisplayed) ||
                 const DeepCollectionEquality()
                     .equals(other.isButtonDisplayed, isButtonDisplayed)));
@@ -456,8 +496,6 @@ class _$Results implements Results {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(games) ^
-      const DeepCollectionEquality().hash(isNewAdded) ^
-      const DeepCollectionEquality().hash(isLoadingNext) ^
       const DeepCollectionEquality().hash(isButtonDisplayed);
 
   @JsonKey(ignore: true)
@@ -468,27 +506,30 @@ class _$Results implements Results {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isButtonDisplayed) initial,
-    required TResult Function(bool isButtonDisplayed) searching,
-    required TResult Function(List<Game> games, bool isNewAdded,
-            bool isLoadingNext, bool isButtonDisplayed)
-        results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) initial,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        searching,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        loadingNextPage,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        addingResults,
   }) {
-    return results(games, isNewAdded, isLoadingNext, isButtonDisplayed);
+    return results(games, isButtonDisplayed);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isButtonDisplayed)? initial,
-    TResult Function(bool isButtonDisplayed)? searching,
-    TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
-            bool isButtonDisplayed)?
-        results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? initial,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? loadingNextPage,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? addingResults,
     required TResult orElse(),
   }) {
     if (results != null) {
-      return results(games, isNewAdded, isLoadingNext, isButtonDisplayed);
+      return results(games, isButtonDisplayed);
     }
     return orElse();
   }
@@ -499,6 +540,8 @@ class _$Results implements Results {
     required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
+    required TResult Function(LoadingNextPage value) loadingNextPage,
+    required TResult Function(AddingResults value) addingResults,
   }) {
     return results(this);
   }
@@ -509,6 +552,8 @@ class _$Results implements Results {
     TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
+    TResult Function(LoadingNextPage value)? loadingNextPage,
+    TResult Function(AddingResults value)? addingResults,
     required TResult orElse(),
   }) {
     if (results != null) {
@@ -519,15 +564,312 @@ class _$Results implements Results {
 }
 
 abstract class Results implements SearchState {
-  const factory Results(List<Game> games, bool isNewAdded, bool isLoadingNext,
-      bool isButtonDisplayed) = _$Results;
+  const factory Results(List<Game> games, bool isButtonDisplayed) = _$Results;
 
+  @override
   List<Game> get games => throw _privateConstructorUsedError;
-  bool get isNewAdded => throw _privateConstructorUsedError;
-  bool get isLoadingNext => throw _privateConstructorUsedError;
   @override
   bool get isButtonDisplayed => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $ResultsCopyWith<Results> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LoadingNextPageCopyWith<$Res>
+    implements $SearchStateCopyWith<$Res> {
+  factory $LoadingNextPageCopyWith(
+          LoadingNextPage value, $Res Function(LoadingNextPage) then) =
+      _$LoadingNextPageCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Game> games, bool isButtonDisplayed});
+}
+
+/// @nodoc
+class _$LoadingNextPageCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res>
+    implements $LoadingNextPageCopyWith<$Res> {
+  _$LoadingNextPageCopyWithImpl(
+      LoadingNextPage _value, $Res Function(LoadingNextPage) _then)
+      : super(_value, (v) => _then(v as LoadingNextPage));
+
+  @override
+  LoadingNextPage get _value => super._value as LoadingNextPage;
+
+  @override
+  $Res call({
+    Object? games = freezed,
+    Object? isButtonDisplayed = freezed,
+  }) {
+    return _then(LoadingNextPage(
+      games == freezed
+          ? _value.games
+          : games // ignore: cast_nullable_to_non_nullable
+              as List<Game>,
+      isButtonDisplayed == freezed
+          ? _value.isButtonDisplayed
+          : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadingNextPage implements LoadingNextPage {
+  const _$LoadingNextPage(this.games, this.isButtonDisplayed);
+
+  @override
+  final List<Game> games;
+  @override
+  final bool isButtonDisplayed;
+
+  @override
+  String toString() {
+    return 'SearchState.loadingNextPage(games: $games, isButtonDisplayed: $isButtonDisplayed)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is LoadingNextPage &&
+            (identical(other.games, games) ||
+                const DeepCollectionEquality().equals(other.games, games)) &&
+            (identical(other.isButtonDisplayed, isButtonDisplayed) ||
+                const DeepCollectionEquality()
+                    .equals(other.isButtonDisplayed, isButtonDisplayed)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(games) ^
+      const DeepCollectionEquality().hash(isButtonDisplayed);
+
+  @JsonKey(ignore: true)
+  @override
+  $LoadingNextPageCopyWith<LoadingNextPage> get copyWith =>
+      _$LoadingNextPageCopyWithImpl<LoadingNextPage>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<Game> games, bool isButtonDisplayed) initial,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        searching,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        loadingNextPage,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        addingResults,
+  }) {
+    return loadingNextPage(games, isButtonDisplayed);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<Game> games, bool isButtonDisplayed)? initial,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? loadingNextPage,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? addingResults,
+    required TResult orElse(),
+  }) {
+    if (loadingNextPage != null) {
+      return loadingNextPage(games, isButtonDisplayed);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Searching value) searching,
+    required TResult Function(Results value) results,
+    required TResult Function(LoadingNextPage value) loadingNextPage,
+    required TResult Function(AddingResults value) addingResults,
+  }) {
+    return loadingNextPage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Searching value)? searching,
+    TResult Function(Results value)? results,
+    TResult Function(LoadingNextPage value)? loadingNextPage,
+    TResult Function(AddingResults value)? addingResults,
+    required TResult orElse(),
+  }) {
+    if (loadingNextPage != null) {
+      return loadingNextPage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LoadingNextPage implements SearchState {
+  const factory LoadingNextPage(List<Game> games, bool isButtonDisplayed) =
+      _$LoadingNextPage;
+
+  @override
+  List<Game> get games => throw _privateConstructorUsedError;
+  @override
+  bool get isButtonDisplayed => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $LoadingNextPageCopyWith<LoadingNextPage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AddingResultsCopyWith<$Res>
+    implements $SearchStateCopyWith<$Res> {
+  factory $AddingResultsCopyWith(
+          AddingResults value, $Res Function(AddingResults) then) =
+      _$AddingResultsCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Game> games, bool isButtonDisplayed});
+}
+
+/// @nodoc
+class _$AddingResultsCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
+    implements $AddingResultsCopyWith<$Res> {
+  _$AddingResultsCopyWithImpl(
+      AddingResults _value, $Res Function(AddingResults) _then)
+      : super(_value, (v) => _then(v as AddingResults));
+
+  @override
+  AddingResults get _value => super._value as AddingResults;
+
+  @override
+  $Res call({
+    Object? games = freezed,
+    Object? isButtonDisplayed = freezed,
+  }) {
+    return _then(AddingResults(
+      games == freezed
+          ? _value.games
+          : games // ignore: cast_nullable_to_non_nullable
+              as List<Game>,
+      isButtonDisplayed == freezed
+          ? _value.isButtonDisplayed
+          : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$AddingResults implements AddingResults {
+  const _$AddingResults(this.games, this.isButtonDisplayed);
+
+  @override
+  final List<Game> games;
+  @override
+  final bool isButtonDisplayed;
+
+  @override
+  String toString() {
+    return 'SearchState.addingResults(games: $games, isButtonDisplayed: $isButtonDisplayed)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is AddingResults &&
+            (identical(other.games, games) ||
+                const DeepCollectionEquality().equals(other.games, games)) &&
+            (identical(other.isButtonDisplayed, isButtonDisplayed) ||
+                const DeepCollectionEquality()
+                    .equals(other.isButtonDisplayed, isButtonDisplayed)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(games) ^
+      const DeepCollectionEquality().hash(isButtonDisplayed);
+
+  @JsonKey(ignore: true)
+  @override
+  $AddingResultsCopyWith<AddingResults> get copyWith =>
+      _$AddingResultsCopyWithImpl<AddingResults>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<Game> games, bool isButtonDisplayed) initial,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        searching,
+    required TResult Function(List<Game> games, bool isButtonDisplayed) results,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        loadingNextPage,
+    required TResult Function(List<Game> games, bool isButtonDisplayed)
+        addingResults,
+  }) {
+    return addingResults(games, isButtonDisplayed);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<Game> games, bool isButtonDisplayed)? initial,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? results,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? loadingNextPage,
+    TResult Function(List<Game> games, bool isButtonDisplayed)? addingResults,
+    required TResult orElse(),
+  }) {
+    if (addingResults != null) {
+      return addingResults(games, isButtonDisplayed);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Searching value) searching,
+    required TResult Function(Results value) results,
+    required TResult Function(LoadingNextPage value) loadingNextPage,
+    required TResult Function(AddingResults value) addingResults,
+  }) {
+    return addingResults(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Searching value)? searching,
+    TResult Function(Results value)? results,
+    TResult Function(LoadingNextPage value)? loadingNextPage,
+    TResult Function(AddingResults value)? addingResults,
+    required TResult orElse(),
+  }) {
+    if (addingResults != null) {
+      return addingResults(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AddingResults implements SearchState {
+  const factory AddingResults(List<Game> games, bool isButtonDisplayed) =
+      _$AddingResults;
+
+  @override
+  List<Game> get games => throw _privateConstructorUsedError;
+  @override
+  bool get isButtonDisplayed => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $AddingResultsCopyWith<AddingResults> get copyWith =>
+      throw _privateConstructorUsedError;
 }
