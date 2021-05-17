@@ -15,7 +15,7 @@ class SearchCubit extends Cubit<SearchState> {
   String? _currentTerm;
   bool _isLoading = false;
 
-  Future<void> getFirstPage() async {
+  Future<void> getPopular() async {
     emit(Searching(false));
     _isLoading = true;
     await GameRepository().getPopular().then((results) async {

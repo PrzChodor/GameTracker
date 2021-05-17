@@ -33,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _searchCubit..getFirstPage(),
+      create: (context) => _searchCubit..getPopular(),
       child: BlocListener<SearchCubit, SearchState>(
         listener: (context, state) async {
           if (state is Results) {
@@ -181,7 +181,9 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _getListItem(BuildContext context, int index, List<Game> list) {
     if (index == 0) {
       return SearchField(
-        onSubmitted: (term) => context.read<SearchCubit>().searchForGames(term),
+        onSubmitted: (term) => term.trim().isNotEmpty
+            ? context.read<SearchCubit>().searchForGames(term)
+            : context.read<SearchCubit>().getPopular(),
       );
     }
 
