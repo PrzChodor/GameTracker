@@ -91,6 +91,10 @@ class UserRepository {
     return _firebaseAuth.currentUser?.email;
   }
 
+  String? getUid() {
+    return _firebaseAuth.currentUser?.uid;
+  }
+
   bool hasUsername() {
     return _firebaseAuth.currentUser?.displayName != null;
   }

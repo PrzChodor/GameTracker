@@ -8,12 +8,31 @@ part 'search_state.dart';
 part 'search_cubit.freezed.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(Searching(false));
+  SearchCubit() : super(Initial(false));
 
   int _pageCount = 1;
   int currentPage = 0;
-  String _currentTerm = '';
+  String? _currentTerm;
   bool _isLoading = false;
+
+  Future<void> getFirstPage() async {
+    emit(Searching(false));
+    _isLoading = true;
+    await GameRepository().getPopular().then((results) async {
+      _pageCount = 10;
+      currentPage = 0;
+      _currentTerm = null;
+      emit(Results([], false, false, state.isButtonDisplayed));
+      for (var result in results) {
+        List<Game> updatedList = [];
+        updatedList.addAll((state as Results).games);
+        updatedList.add(result);
+        emit(Results(updatedList, true, false, state.isButtonDisplayed));
+        await Future.delayed(Duration(milliseconds: 150));
+      }
+    });
+    _isLoading = false;
+  }
 
   Future<void> searchForGames(String term) async {
     emit(Searching(false));

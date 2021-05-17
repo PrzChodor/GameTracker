@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'game.freezed.dart';
+part 'game.g.dart';
 
 @freezed
 class Game with _$Game {
@@ -16,6 +17,8 @@ class Game with _$Game {
     required List<String> platforms,
     required String summary,
   }) = _Game;
+
+  factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 
   factory Game.fromIGDB(Map<String, dynamic> json) {
     return Game(

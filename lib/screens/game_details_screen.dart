@@ -40,7 +40,7 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                   children: [
                     GameListItem(
                       game: widget.game,
-                      onTap: () => Navigator.pop(context),
+                      isFromList: false,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(6.0),
@@ -95,8 +95,8 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              width: 16,
-                              height: 16,
+                              width: 12,
+                              height: 12,
                               decoration: BoxDecoration(
                                   color: state.round() == i
                                       ? CustomColors.primaryColor

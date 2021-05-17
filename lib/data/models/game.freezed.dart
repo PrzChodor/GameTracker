@@ -12,6 +12,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Game _$GameFromJson(Map<String, dynamic> json) {
+  return _Game.fromJson(json);
+}
+
 /// @nodoc
 class _$GameTearOff {
   const _$GameTearOff();
@@ -40,6 +44,10 @@ class _$GameTearOff {
       summary: summary,
     );
   }
+
+  Game fromJson(Map<String, Object> json) {
+    return Game.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -58,6 +66,7 @@ mixin _$Game {
   List<String> get platforms => throw _privateConstructorUsedError;
   String get summary => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $GameCopyWith<Game> get copyWith => throw _privateConstructorUsedError;
 }
@@ -231,7 +240,7 @@ class __$GameCopyWithImpl<$Res> extends _$GameCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Game implements _Game {
   _$_Game(
       {required this.id,
@@ -244,6 +253,9 @@ class _$_Game implements _Game {
       required this.genres,
       required this.platforms,
       required this.summary});
+
+  factory _$_Game.fromJson(Map<String, dynamic> json) =>
+      _$_$_GameFromJson(json);
 
   @override
   final int id;
@@ -318,6 +330,11 @@ class _$_Game implements _Game {
   @override
   _$GameCopyWith<_Game> get copyWith =>
       __$GameCopyWithImpl<_Game>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_GameToJson(this);
+  }
 }
 
 abstract class _Game implements Game {
@@ -332,6 +349,8 @@ abstract class _Game implements Game {
       required List<String> genres,
       required List<String> platforms,
       required String summary}) = _$_Game;
+
+  factory _Game.fromJson(Map<String, dynamic> json) = _$_Game.fromJson;
 
   @override
   int get id => throw _privateConstructorUsedError;

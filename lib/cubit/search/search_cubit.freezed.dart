@@ -16,6 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SearchStateTearOff {
   const _$SearchStateTearOff();
 
+  Initial initial(bool isButtonDisplayed) {
+    return Initial(
+      isButtonDisplayed,
+    );
+  }
+
   Searching searching(bool isButtonDisplayed) {
     return Searching(
       isButtonDisplayed,
@@ -42,6 +48,7 @@ mixin _$SearchState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(bool isButtonDisplayed) initial,
     required TResult Function(bool isButtonDisplayed) searching,
     required TResult Function(List<Game> games, bool isNewAdded,
             bool isLoadingNext, bool isButtonDisplayed)
@@ -50,6 +57,7 @@ mixin _$SearchState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool isButtonDisplayed)? initial,
     TResult Function(bool isButtonDisplayed)? searching,
     TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
             bool isButtonDisplayed)?
@@ -59,12 +67,14 @@ mixin _$SearchState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
     required TResult orElse(),
@@ -103,6 +113,131 @@ class _$SearchStateCopyWithImpl<$Res> implements $SearchStateCopyWith<$Res> {
               as bool,
     ));
   }
+}
+
+/// @nodoc
+abstract class $InitialCopyWith<$Res> implements $SearchStateCopyWith<$Res> {
+  factory $InitialCopyWith(Initial value, $Res Function(Initial) then) =
+      _$InitialCopyWithImpl<$Res>;
+  @override
+  $Res call({bool isButtonDisplayed});
+}
+
+/// @nodoc
+class _$InitialCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
+    implements $InitialCopyWith<$Res> {
+  _$InitialCopyWithImpl(Initial _value, $Res Function(Initial) _then)
+      : super(_value, (v) => _then(v as Initial));
+
+  @override
+  Initial get _value => super._value as Initial;
+
+  @override
+  $Res call({
+    Object? isButtonDisplayed = freezed,
+  }) {
+    return _then(Initial(
+      isButtonDisplayed == freezed
+          ? _value.isButtonDisplayed
+          : isButtonDisplayed // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Initial implements Initial {
+  const _$Initial(this.isButtonDisplayed);
+
+  @override
+  final bool isButtonDisplayed;
+
+  @override
+  String toString() {
+    return 'SearchState.initial(isButtonDisplayed: $isButtonDisplayed)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is Initial &&
+            (identical(other.isButtonDisplayed, isButtonDisplayed) ||
+                const DeepCollectionEquality()
+                    .equals(other.isButtonDisplayed, isButtonDisplayed)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isButtonDisplayed);
+
+  @JsonKey(ignore: true)
+  @override
+  $InitialCopyWith<Initial> get copyWith =>
+      _$InitialCopyWithImpl<Initial>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(bool isButtonDisplayed) initial,
+    required TResult Function(bool isButtonDisplayed) searching,
+    required TResult Function(List<Game> games, bool isNewAdded,
+            bool isLoadingNext, bool isButtonDisplayed)
+        results,
+  }) {
+    return initial(isButtonDisplayed);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool isButtonDisplayed)? initial,
+    TResult Function(bool isButtonDisplayed)? searching,
+    TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
+            bool isButtonDisplayed)?
+        results,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(isButtonDisplayed);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Searching value) searching,
+    required TResult Function(Results value) results,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Searching value)? searching,
+    TResult Function(Results value)? results,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Initial implements SearchState {
+  const factory Initial(bool isButtonDisplayed) = _$Initial;
+
+  @override
+  bool get isButtonDisplayed => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $InitialCopyWith<Initial> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -170,6 +305,7 @@ class _$Searching implements Searching {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(bool isButtonDisplayed) initial,
     required TResult Function(bool isButtonDisplayed) searching,
     required TResult Function(List<Game> games, bool isNewAdded,
             bool isLoadingNext, bool isButtonDisplayed)
@@ -181,6 +317,7 @@ class _$Searching implements Searching {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool isButtonDisplayed)? initial,
     TResult Function(bool isButtonDisplayed)? searching,
     TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
             bool isButtonDisplayed)?
@@ -196,6 +333,7 @@ class _$Searching implements Searching {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
   }) {
@@ -205,6 +343,7 @@ class _$Searching implements Searching {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
     required TResult orElse(),
@@ -329,6 +468,7 @@ class _$Results implements Results {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(bool isButtonDisplayed) initial,
     required TResult Function(bool isButtonDisplayed) searching,
     required TResult Function(List<Game> games, bool isNewAdded,
             bool isLoadingNext, bool isButtonDisplayed)
@@ -340,6 +480,7 @@ class _$Results implements Results {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool isButtonDisplayed)? initial,
     TResult Function(bool isButtonDisplayed)? searching,
     TResult Function(List<Game> games, bool isNewAdded, bool isLoadingNext,
             bool isButtonDisplayed)?
@@ -355,6 +496,7 @@ class _$Results implements Results {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
     required TResult Function(Searching value) searching,
     required TResult Function(Results value) results,
   }) {
@@ -364,6 +506,7 @@ class _$Results implements Results {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
     TResult Function(Searching value)? searching,
     TResult Function(Results value)? results,
     required TResult orElse(),

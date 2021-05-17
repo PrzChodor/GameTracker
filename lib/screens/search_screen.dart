@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gametracker/cubit/search/search_cubit.dart';
 import 'package:gametracker/data/models/game.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
-import 'package:gametracker/screens/game_details_screen.dart';
 import 'package:gametracker/widgets/game_list_item.dart';
 import 'package:gametracker/widgets/search_field.dart';
 
@@ -34,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _searchCubit..searchForGames('Witcher'),
+      create: (context) => _searchCubit..getFirstPage(),
       child: BlocListener<SearchCubit, SearchState>(
         listener: (context, state) async {
           if (state is Results) {
@@ -119,6 +118,13 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 body: SafeArea(
                   child: state.map(
+                    initial: (currentState) => Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: SearchField(
+                        onSubmitted: (term) =>
+                            context.read<SearchCubit>().searchForGames(term),
+                      ),
+                    ),
                     searching: (currentState) => Center(
                         child: SizedBox(
                       height: 128,
@@ -181,14 +187,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return GameListItem(
       game: list[index - 1],
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GameDetailsScreen(
-            game: list[index - 1],
-          ),
-        ),
-      ),
+      isFromList: true,
     );
   }
 
