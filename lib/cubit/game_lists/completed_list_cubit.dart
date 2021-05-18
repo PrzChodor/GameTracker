@@ -7,7 +7,13 @@ class CompletedListCubit extends Cubit<ListState> {
   CompletedListCubit() : super(Loading([]));
 
   Future<void> loadGames() async {
-    var results = await GameRepository().getCompletedGames();
+    List<Game> results = [];
+
+    await Future.wait([
+      GameRepository().getCompletedGames().then((value) => results = value),
+      Future.delayed(Duration(milliseconds: 300))
+    ]);
+
     for (var result in results) {
       List<Game> updatedList = [];
       updatedList.addAll(state.games);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gametracker/cubit/game_list_item/game_list_item_cubit.dart';
-import 'package:gametracker/cubit/game_lists/added_list_cubit.dart';
 
 import 'package:gametracker/data/models/game.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
@@ -11,7 +10,7 @@ import 'package:intl/intl.dart';
 class GameListItem extends StatefulWidget {
   final Game game;
   final bool isFromList;
-  final Function()? onStateChange;
+  final Function(bool)? onStateChange;
 
   const GameListItem({
     Key? key,
@@ -151,7 +150,7 @@ class _GameListItemState extends State<GameListItem> {
                                         ),
                                         onPressed: () {
                                           if (widget.onStateChange != null) {
-                                            widget.onStateChange!();
+                                            widget.onStateChange!(true);
                                           }
                                           context
                                               .read<GameListItemCubit>()
@@ -193,7 +192,7 @@ class _GameListItemState extends State<GameListItem> {
                                   onPressed: () => state.maybeWhen(
                                       notAdded: () {
                                         if (widget.onStateChange != null) {
-                                          widget.onStateChange!();
+                                          widget.onStateChange!(false);
                                         }
                                         context
                                             .read<GameListItemCubit>()
@@ -202,7 +201,7 @@ class _GameListItemState extends State<GameListItem> {
                                       },
                                       added: () {
                                         if (widget.onStateChange != null) {
-                                          widget.onStateChange!();
+                                          widget.onStateChange!(false);
                                         }
                                         context
                                             .read<GameListItemCubit>()
@@ -211,7 +210,7 @@ class _GameListItemState extends State<GameListItem> {
                                       },
                                       completed: () {
                                         if (widget.onStateChange != null) {
-                                          widget.onStateChange!();
+                                          widget.onStateChange!(false);
                                         }
                                         context
                                             .read<GameListItemCubit>()
@@ -240,7 +239,10 @@ class _GameListItemState extends State<GameListItem> {
       GameListItemState newState, GameListItemState previousState) {
     if (newState != previousState) {
       if (widget.onStateChange != null) {
-        widget.onStateChange!();
+        if (newState is NotAdded)
+          widget.onStateChange!(true);
+        else
+          widget.onStateChange!(false);
       } else {
         context.read<GameListItemCubit>().emit(newState);
       }

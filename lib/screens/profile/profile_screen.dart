@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gametracker/cubit/authentication/authentication_cubit.dart';
-import 'package:gametracker/data/repositories/game_repository.dart';
 import 'package:gametracker/data/repositories/user_repository.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
 import 'package:gametracker/screens/profile/profile_stats.dart';

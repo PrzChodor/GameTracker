@@ -8,8 +8,10 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(Games());
 
   int currentPage = 0;
+  bool changeDirection = false;
 
   void pageChanged(int page) {
+    changeDirection = page > currentPage;
     currentPage = page;
 
     if (currentPage == 0) {

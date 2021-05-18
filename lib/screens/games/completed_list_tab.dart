@@ -57,8 +57,8 @@ class _CompletedListTabState extends State<CompletedListTab> {
                     key: _listKey,
                     padding: EdgeInsets.all(6.0),
                     initialItemCount: state is Results ? state.games.length : 0,
-                    itemBuilder: (context, index, animation) =>
-                        _buildListItem(context, index, animation, state.games),
+                    itemBuilder: (context, index, animation) => _buildListItem(
+                        context, index, animation, state.games, false),
                   ),
                 );
         },
@@ -67,19 +67,19 @@ class _CompletedListTabState extends State<CompletedListTab> {
   }
 
   Widget _buildListItem(BuildContext context, int index,
-      Animation<double> animation, List<Game> games) {
+      Animation<double> animation, List<Game> games, bool removed) {
     return SlideTransition(
       position: CurvedAnimation(
         curve: Curves.easeOut,
         parent: animation,
       ).drive((Tween<Offset>(
-        begin: Offset(-1, 0),
+        begin: Offset(removed ? -1 : 1, 0),
         end: Offset(0, 0),
       ))),
       child: GameListItem(
         game: games[index],
         isFromList: true,
-        onStateChange: () =>
+        onStateChange: (reversed) =>
             context.read<CompletedListCubit>().removeItem(index, _removeItem),
       ),
     );
@@ -88,7 +88,8 @@ class _CompletedListTabState extends State<CompletedListTab> {
   void _removeItem(int index, List<Game> games) {
     _listKey.currentState?.removeItem(
       index,
-      (context, animation) => _buildListItem(context, index, animation, games),
+      (context, animation) =>
+          _buildListItem(context, index, animation, games, true),
       duration: Duration(milliseconds: 300),
     );
   }

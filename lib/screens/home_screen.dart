@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gametracker/cubit/game_lists/added_list_cubit.dart';
-import 'package:gametracker/cubit/game_lists/completed_list_cubit.dart';
 import 'package:gametracker/cubit/games_tabs/games_tabs_cubit.dart';
 import 'package:gametracker/cubit/home/home_cubit.dart';
 import 'package:gametracker/cubit/profile/profile_cubit.dart';
@@ -69,10 +67,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              body: state.when(
-                games: () => GamesScreen(),
-                search: () => SearchScreen(),
-                profile: () => ProfileScreen(),
+              body: AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                child: state.when(
+                  games: () => GamesScreen(),
+                  search: () => SearchScreen(),
+                  profile: () => ProfileScreen(),
+                ),
+                transitionBuilder: (child, animation) => SlideTransition(
+                  position: CurvedAnimation(
+                    curve: Curves.easeInOut,
+                    reverseCurve: Threshold(0),
+                    parent: animation,
+                  ).drive((Tween<Offset>(
+                    begin: Offset(
+                        context.read<HomeCubit>().changeDirection ? 1 : -1, 0),
+                    end: Offset(0, 0),
+                  ))),
+                  child: child,
+                ),
               ),
             );
           },

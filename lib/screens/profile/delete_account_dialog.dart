@@ -52,7 +52,6 @@ class _DeleteDialogState extends State<DeleteDialog> {
                       onPressed: () async {
                         await GameRepository().deleteUser();
                         await UserRepository().deleteUser().then((_) async {
-                          Navigator.pop(context);
                           context.read<AuthenticationCubit>().loggedOut();
                           ScaffoldMessenger.of(context)
                             ..showSnackBar(
@@ -103,6 +102,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                                 backgroundColor: CustomColors.successColor,
                               ),
                             );
+                          Navigator.pop(context);
                         }).onError((error, stackTrace) {
                           context.read<AuthenticationCubit>().loggedOut();
                           ScaffoldMessenger.of(context)
@@ -154,6 +154,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                                 backgroundColor: CustomColors.errorColor,
                               ),
                             );
+                          Navigator.pop(context);
                         });
                       },
                       child: Text(

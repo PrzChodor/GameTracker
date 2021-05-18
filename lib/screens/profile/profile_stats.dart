@@ -49,6 +49,7 @@ class _ProfileStatsState extends State<ProfileStats> {
                                   TextStyle(
                                     color: CustomColors.secondaryColor,
                                     fontWeight: FontWeight.w500,
+                                    fontSize: 25,
                                   ),
                                 ),
                           ),
@@ -81,11 +82,12 @@ class _ProfileStatsState extends State<ProfileStats> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Played',
+                            'Completed',
                             style: Theme.of(context).textTheme.headline4!.merge(
                                   TextStyle(
                                     color: CustomColors.secondaryColor,
                                     fontWeight: FontWeight.w500,
+                                    fontSize: 25,
                                   ),
                                 ),
                           ),

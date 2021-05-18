@@ -8,7 +8,13 @@ class AddedListCubit extends Cubit<ListState> {
   AddedListCubit() : super(Loading([]));
 
   Future<void> loadGames() async {
-    var results = await GameRepository().getAddedGames();
+    List<Game> results = [];
+
+    await Future.wait([
+      GameRepository().getAddedGames().then((value) => results = value),
+      Future.delayed(Duration(milliseconds: 300))
+    ]);
+
     for (var result in results) {
       List<Game> updatedList = [];
       updatedList.addAll(state.games);
@@ -20,11 +26,13 @@ class AddedListCubit extends Cubit<ListState> {
   }
 
   void removeItem(
-      int index, void animatedListRemove(int index, List<Game> games)) {
+      int index,
+      void animatedListRemove(int index, List<Game> games, bool reversed),
+      bool reversed) {
     List<Game> updatedList = [];
     updatedList.addAll(state.games);
     updatedList.removeAt(index);
-    animatedListRemove(index, state.games);
+    animatedListRemove(index, state.games, reversed);
     emit(Results(updatedList));
   }
 }

@@ -54,7 +54,22 @@ class _GamesScreenState extends State<GamesScreen> {
                     ],
                   ),
                 ),
-                Expanded(child: state ? CompletedListTab() : AddedListTab()),
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    child: state ? CompletedListTab() : AddedListTab(),
+                    transitionBuilder: (child, animation) => SlideTransition(
+                      position: CurvedAnimation(
+                        curve: Curves.easeInOut,
+                        parent: animation,
+                      ).drive((Tween<Offset>(
+                        begin: Offset(state ? -1 : 1, 0),
+                        end: Offset(0, 0),
+                      ))),
+                      child: child,
+                    ),
+                  ),
+                ),
               ],
             );
           },
