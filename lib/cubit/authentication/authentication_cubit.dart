@@ -9,6 +9,7 @@ part 'authentication_cubit.freezed.dart';
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(Uninitialized());
 
+  ///Authentication initialization
   Future<void> appStarted() async {
     //Wait minimum one second
     await Future.wait(
@@ -27,6 +28,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
+  ///Log in the user
   Future<void> loggedIn() async {
     if (!UserRepository().hasVerifiedEmail()) {
       emit(EmailNotVerified());
@@ -36,6 +38,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(Authenticated());
   }
 
+  ///Log out the user
   Future<void> loggedOut() async {
     emit(Unauthenticated());
     UserRepository().signOut();

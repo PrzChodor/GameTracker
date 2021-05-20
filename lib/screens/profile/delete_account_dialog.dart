@@ -3,7 +3,6 @@ import 'package:gametracker/cubit/authentication/authentication_cubit.dart';
 import 'package:gametracker/data/repositories/game_repository.dart';
 import 'package:gametracker/data/repositories/user_repository.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeleteDialog extends StatefulWidget {
   @override
@@ -51,110 +50,10 @@ class _DeleteDialogState extends State<DeleteDialog> {
                       ),
                       onPressed: () async {
                         await GameRepository().deleteUser();
-                        await UserRepository().deleteUser().then((_) async {
-                          context.read<AuthenticationCubit>().loggedOut();
-                          ScaffoldMessenger.of(context)
-                            ..showSnackBar(
-                              SnackBar(
-                                content: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 16.0),
-                                      child: Icon(
-                                        Icons.check_rounded,
-                                        color: CustomColors.backgroundColor,
-                                        size: 36,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: 'Deletion Success\n',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: CustomColors
-                                                    .backgroundColor,
-                                              ),
-                                            ),
-                                            WidgetSpan(
-                                              child: SizedBox(
-                                                height: 8,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  '\nYour account was successfully deleted!',
-                                              style: TextStyle(
-                                                  color: CustomColors
-                                                      .backgroundColor),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                backgroundColor: CustomColors.successColor,
-                              ),
-                            );
-                          Navigator.pop(context);
+                        await UserRepository().deleteUser().then((_) {
+                          _onSuccess(context);
                         }).onError((error, stackTrace) {
-                          context.read<AuthenticationCubit>().loggedOut();
-                          ScaffoldMessenger.of(context)
-                            ..showSnackBar(
-                              SnackBar(
-                                content: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 16.0),
-                                      child: Icon(
-                                        Icons.error,
-                                        color: CustomColors.backgroundColor,
-                                        size: 36,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: 'Deletion Failure\n',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: CustomColors
-                                                    .backgroundColor,
-                                              ),
-                                            ),
-                                            WidgetSpan(
-                                              child: SizedBox(
-                                                height: 8,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  '\nYou need to freshly log in to delete your account!',
-                                              style: TextStyle(
-                                                  color: CustomColors
-                                                      .backgroundColor),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                backgroundColor: CustomColors.errorColor,
-                              ),
-                            );
-                          Navigator.pop(context);
+                          _onError(context);
                         });
                       },
                       child: Text(
@@ -177,5 +76,102 @@ class _DeleteDialogState extends State<DeleteDialog> {
         ),
       ),
     );
+  }
+
+  void _onError(context) {
+    context.read<AuthenticationCubit>().loggedOut();
+    ScaffoldMessenger.of(context)
+      ..showSnackBar(
+        SnackBar(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.error,
+                  color: CustomColors.backgroundColor,
+                  size: 36,
+                ),
+              ),
+              Flexible(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Deletion Failure\n',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.backgroundColor,
+                        ),
+                      ),
+                      WidgetSpan(
+                        child: SizedBox(
+                          height: 8,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            '\nYou need to freshly log in to delete your account!',
+                        style: TextStyle(color: CustomColors.backgroundColor),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: CustomColors.errorColor,
+        ),
+      );
+    Navigator.pop(context);
+  }
+
+  void _onSuccess(context) {
+    context.read<AuthenticationCubit>().loggedOut();
+    ScaffoldMessenger.of(context)
+      ..showSnackBar(
+        SnackBar(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.check_rounded,
+                  color: CustomColors.backgroundColor,
+                  size: 36,
+                ),
+              ),
+              Flexible(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Deletion Success\n',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.backgroundColor,
+                        ),
+                      ),
+                      WidgetSpan(
+                        child: SizedBox(
+                          height: 8,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '\nYour account was successfully deleted!',
+                        style: TextStyle(color: CustomColors.backgroundColor),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: CustomColors.successColor,
+        ),
+      );
+    Navigator.pop(context);
   }
 }

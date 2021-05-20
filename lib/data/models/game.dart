@@ -18,12 +18,15 @@ class Game with _$Game {
     required String summary,
   }) = _Game;
 
+  ///Game object from realtime database json
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 
+  ///Game object from IGDB database json
   factory Game.fromIGDB(Map<String, dynamic> json) {
     return Game(
         id: json['id'],
         name: json['name'],
+        //Find developer in list of involved companies
         developers: (json['involved_companies'] as List)
             .firstWhere((company) => company['developer'] as bool,
                 orElse: () => {

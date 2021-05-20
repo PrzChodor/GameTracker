@@ -28,6 +28,7 @@ class _CompletedListTabState extends State<CompletedListTab> {
       child: BlocConsumer<CompletedListCubit, ListState>(
         listener: (context, state) {
           if (state is AddingResults) {
+            //Animate adding result
             WidgetsBinding.instance!.addPostFrameCallback((_) =>
                 _listKey.currentState?.insertItem(state.games.length - 1,
                     duration: Duration(milliseconds: 300)));
@@ -85,6 +86,7 @@ class _CompletedListTabState extends State<CompletedListTab> {
     );
   }
 
+  ///Remove item from AnimatedList with correct animation
   void _removeItem(int index, List<Game> games) {
     _listKey.currentState?.removeItem(
       index,

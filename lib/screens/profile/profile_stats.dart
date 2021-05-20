@@ -35,6 +35,7 @@ class _ProfileStatsState extends State<ProfileStats> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
+                      //Show added games tab
                       context.read<GamesTabsCubit>().switchTab(false);
                       context.read<HomeCubit>().pageChanged(0);
                     },
@@ -73,6 +74,7 @@ class _ProfileStatsState extends State<ProfileStats> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
+                      //Show completed games tab
                       context.read<GamesTabsCubit>().switchTab(true);
                       context.read<HomeCubit>().pageChanged(0);
                     },

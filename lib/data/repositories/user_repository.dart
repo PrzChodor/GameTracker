@@ -17,6 +17,7 @@ class UserRepository {
     return _instance;
   }
 
+  ///Try signing in with google account
   Future<void> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = (await _googleSignIn.signIn())!;
 
@@ -30,6 +31,7 @@ class UserRepository {
     await _firebaseAuth.signInWithCredential(credential);
   }
 
+  ///Try signing in with facebook account
   Future<void> signInWithFacebook() async {
     final LoginResult result = await FacebookAuth.instance.login();
 
@@ -46,6 +48,7 @@ class UserRepository {
     }
   }
 
+  ///Try signing in with given email and password
   Future<void> signInWithCredentials(String email, String password) {
     return _firebaseAuth.signInWithEmailAndPassword(
       email: email,
@@ -53,6 +56,7 @@ class UserRepository {
     );
   }
 
+  ///Create an account with given credentials
   Future<void> signUp(
       {required String email,
       required String password,
@@ -67,10 +71,12 @@ class UserRepository {
         .then((_) => signOut());
   }
 
+  ///Add username to new user account
   Future<void> addUsername(String username) async {
     _firebaseAuth.currentUser?.updateProfile(displayName: username);
   }
 
+  ///Sign out if there is user logged in
   Future<void> signOut() async {
     if (_firebaseAuth.currentUser != null)
       await Future.wait([
@@ -80,43 +86,47 @@ class UserRepository {
       ]);
   }
 
+  ///Check if user is signed in
   Future<bool> isSignedIn() async {
-    final currentUser = _firebaseAuth.currentUser;
-    return currentUser != null;
+    return _firebaseAuth.currentUser != null;
   }
 
+  ///Try to delete current user
   Future<void> deleteUser() async {
     await _firebaseAuth.currentUser?.delete();
   }
 
+  ///Get username of current user
   String? getUsername() {
     return _firebaseAuth.currentUser?.displayName;
   }
 
+  ///Get email of current user
   String? getEmail() {
     return _firebaseAuth.currentUser?.email;
   }
 
+  ///Get uid of current user
   String? getUid() {
     return _firebaseAuth.currentUser?.uid;
   }
 
-  bool hasUsername() {
-    return _firebaseAuth.currentUser?.displayName != null;
-  }
-
+  ///Check if user has verified email
   bool hasVerifiedEmail() {
     return _firebaseAuth.currentUser!.emailVerified;
   }
 
+  ///Send current user verification email
   Future<void> sendVerificationEmail() async {
     await _firebaseAuth.currentUser!.sendEmailVerification();
   }
 
+  ///Reload current user info
   Future<void> reloadUser() async {
     await _firebaseAuth.currentUser!.reload();
   }
 
+  ///Send user password reset email
   Future<void> resetPassword(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }

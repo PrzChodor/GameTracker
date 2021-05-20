@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+///Colors used in this app
 class CustomColors {
   static const Color backgroundColor = Color(0xFF18273A);
   static const Color darkerBackgroundColor = Color(0xFF111B29);

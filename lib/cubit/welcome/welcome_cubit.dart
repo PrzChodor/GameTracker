@@ -8,6 +8,7 @@ part 'welcome_cubit.freezed.dart';
 class WelcomeCubit extends Cubit<WelcomeState> {
   WelcomeCubit() : super(Initial());
 
+  ///Try logging in with google
   Future<void> logInWithGoogle() async {
     await UserRepository()
         .signInWithGoogle()
@@ -15,6 +16,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         .catchError((error) => Failure(error.message));
   }
 
+  ///Try logging in with facebook
   Future<void> logInWithFacebook() async {
     await UserRepository()
         .signInWithFacebook()

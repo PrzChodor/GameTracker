@@ -9,10 +9,12 @@ part 'reset_password_cubit.freezed.dart';
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   ResetPasswordCubit() : super(Empty());
 
+  ///On email change check if it's valid and emit new state
   Future<void> emailChanged(String email) async {
     emit(Empty(isEmailValid: Validators.isValidEmail(email)));
   }
 
+  ///Try sending user password reset email
   Future<void> resetPassword(String email) async {
     emit(Loading());
     await UserRepository()

@@ -6,6 +6,7 @@ class GamesTab extends StatefulWidget {
   final bool selected;
   final void Function() onTap;
 
+  ///Tab to use in Games page
   const GamesTab(
       {Key? key,
       required this.text,

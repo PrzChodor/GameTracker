@@ -9,6 +9,7 @@ part 'register_cubit.freezed.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(Empty());
 
+  ///On email change check if it's valid and emit new state
   Future<void> emailChanged(String email) async {
     emit(
       Empty(
@@ -19,6 +20,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
+  ///On password change check if it's valid and emit new state
   Future<void> passwordChanged(String password) async {
     emit(
       Empty(
@@ -29,6 +31,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
+  ///On password or confirmation change check if they're the same
+  ///and emit new state
   Future<void> passwordsMatchChanged(
       String password, String confirmation) async {
     emit(
@@ -40,6 +44,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
+  ///On username change check if it's valid and emit new state
   Future<void> usernameChanged(String username) async {
     emit(
       Empty(
@@ -50,6 +55,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
+  ///Try creating new account with given credentials
   Future<void> formSubmitted(
       String email, String password, String username) async {
     emit(Loading());

@@ -12,6 +12,10 @@ class GameListItem extends StatefulWidget {
   final bool isFromList;
   final Function(bool)? onStateChange;
 
+  ///Create GameListItem with [game] Game object and bool [isFromList]
+  ///
+  ///Optionally can contain callback when this Widget changes 
+  ///its state [onStateChange]
   const GameListItem({
     Key? key,
     required this.game,
@@ -32,6 +36,7 @@ class _GameListItemState extends State<GameListItem> {
         builder: (context, state) {
           return WillPopScope(
             onWillPop: () async {
+              //When this widget is not from list send current state back to list
               if (!widget.isFromList) Navigator.pop(context, state);
               return true;
             },
@@ -149,6 +154,7 @@ class _GameListItemState extends State<GameListItem> {
                                           color: CustomColors.backgroundColor,
                                         ),
                                         onPressed: () {
+                                        //Call the function if exist
                                           if (widget.onStateChange != null) {
                                             widget.onStateChange!(true);
                                           }
@@ -191,6 +197,7 @@ class _GameListItemState extends State<GameListItem> {
                                   ),
                                   onPressed: () => state.maybeWhen(
                                       notAdded: () {
+                                        //Call the function if exist
                                         if (widget.onStateChange != null) {
                                           widget.onStateChange!(false);
                                         }
@@ -200,6 +207,7 @@ class _GameListItemState extends State<GameListItem> {
                                                 widget.onStateChange == null);
                                       },
                                       added: () {
+                                        //Call the function if exist
                                         if (widget.onStateChange != null) {
                                           widget.onStateChange!(false);
                                         }
@@ -209,6 +217,7 @@ class _GameListItemState extends State<GameListItem> {
                                                 widget.onStateChange == null);
                                       },
                                       completed: () {
+                                        //Call the function if exist
                                         if (widget.onStateChange != null) {
                                           widget.onStateChange!(false);
                                         }
@@ -235,6 +244,7 @@ class _GameListItemState extends State<GameListItem> {
     );
   }
 
+  ///If this widget is from list check if state changed while it was expanded
   void _reactToPop(
       GameListItemState newState, GameListItemState previousState) {
     if (newState != previousState) {

@@ -21,6 +21,8 @@ class GameRepository {
   factory GameRepository() {
     return _instance;
   }
+
+  ///Get list of 100 most popular games from IGDB
   Future<List<Game>> getPopular() async {
     final response = await http.post(
       Uri.https('api.igdb.com', 'v4/games'),
@@ -54,6 +56,10 @@ class GameRepository {
     return listOfGames;
   }
 
+  ///Search the IGDB database for matching games with [term]
+  ///
+  ///Returns list where first index is the list of first 10 found games and 
+  ///the second is count of all found games for pagination
   Future<List<dynamic>> searchForGames(String term) async {
     final response = await http.post(
       Uri.https('api.igdb.com', 'v4/games'),
@@ -84,6 +90,7 @@ class GameRepository {
       listOfGames.add(Game.fromIGDB(game));
     }
 
+    //Get count of all found games for later pagination
     final countResponse = await http.post(
       Uri.https('api.igdb.com', 'v4/games/count'),
       headers: <String, String>{
@@ -104,6 +111,7 @@ class GameRepository {
     return results;
   }
 
+  ///Get next page with offset of [pageStart]
   Future<List<Game>> getNextPage(int pageStart, String? term) async {
     final response = await http.post(
       Uri.https('api.igdb.com', 'v4/games'),
@@ -113,6 +121,7 @@ class GameRepository {
         'Authorization':
             'Bearer ${_remoteConfig.getString('IGDB_ACCESS_TOKEN')}',
       },
+      //Get page of popular games if term is null
       body: term != null
           ? '''
             fields name, rating, summary, first_release_date, genres.name, platforms.abbreviation, cover.image_id, screenshots.image_id, involved_companies.company.name, involved_companies.developer;
@@ -146,6 +155,7 @@ class GameRepository {
     return listOfGames;
   }
 
+  ///Add game to play next library
   Future<void> addGameToLibrary(Game game) async {
     var database = _firebaseDatabase.reference();
     await database
@@ -155,6 +165,7 @@ class GameRepository {
         .set(game.toJson());
   }
 
+  ///Add game to completed games library and remove it from play next library
   Future<void> completeGame(Game game) async {
     var database = _firebaseDatabase.reference();
     await database
@@ -170,6 +181,7 @@ class GameRepository {
         .set(game.toJson());
   }
 
+  ///Check if game is in play next library
   Future<bool> isAdded(Game game) async {
     var database = _firebaseDatabase.reference();
 
@@ -186,6 +198,7 @@ class GameRepository {
     return true;
   }
 
+  ///Check if game is in completed games library
   Future<bool> isCompleted(Game game) async {
     var database = _firebaseDatabase.reference();
 
@@ -202,6 +215,7 @@ class GameRepository {
     return true;
   }
 
+  ///Remove game from completed games library and add it to play next library
   Future<void> notCompleted(Game game) async {
     var database = _firebaseDatabase.reference();
     await database
@@ -217,6 +231,7 @@ class GameRepository {
         .set(game.toJson());
   }
 
+  ///Remove game from play next library
   Future<void> removeFromLibrary(Game game) async {
     var database = _firebaseDatabase.reference();
     await database
@@ -226,6 +241,8 @@ class GameRepository {
         .remove();
   }
 
+  ///Get profile stats where first index is number of added games and
+  ///the second is number of completed games
   Future<List<int>> getStats() async {
     var database = _firebaseDatabase.reference();
     int completed = await database
@@ -245,6 +262,7 @@ class GameRepository {
     return [added, completed];
   }
 
+  ///Returns a list of all games in play next library
   Future<List<Game>> getAddedGames() async {
     var database = _firebaseDatabase.reference();
     DataSnapshot added = await database
@@ -260,6 +278,7 @@ class GameRepository {
     return results;
   }
 
+  ///Returns a list of all games in completed games library
   Future<List<Game>> getCompletedGames() async {
     var database = _firebaseDatabase.reference();
     DataSnapshot added = await database
@@ -275,6 +294,7 @@ class GameRepository {
     return results;
   }
 
+  ///Deletes all data belonging to the current user
   Future<void> deleteUser() async {
     var database = _firebaseDatabase.reference();
     await database

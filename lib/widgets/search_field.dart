@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gametracker/helpers/custom_colors.dart';
 
+///Special search TextField designed to fit in the search page
 class SearchField extends StatefulWidget {
   final Function(String) onSubmitted;
 

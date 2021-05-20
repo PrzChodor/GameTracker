@@ -11,6 +11,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool isLast;
   final Function(String)? onFieldSubmitted;
 
+  ///TextFormField with decoration fitting to the design of the app
   const CustomTextFormField(
       {Key? key,
       required this.controller,

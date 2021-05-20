@@ -12,6 +12,8 @@ class PasswordTextFormField extends StatefulWidget {
   final bool isLast;
   final Function(String)? onFieldSubmitted;
 
+  ///Obstructed TextFormField with decoration fitting to the design of the app and
+  ///a button which changes visibility of the field
   const PasswordTextFormField(
       {Key? key,
       required this.controller,

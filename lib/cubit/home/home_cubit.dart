@@ -10,7 +10,15 @@ class HomeCubit extends Cubit<HomeState> {
   int currentPage = 0;
   bool changeDirection = false;
 
+  ///Change current page
+  ///
+  ///0 - Games page
+  ///
+  ///1 - Search page
+  ///
+  ///2 - Profile page
   void pageChanged(int page) {
+    //Direction for animation
     changeDirection = page > currentPage;
     currentPage = page;
 
