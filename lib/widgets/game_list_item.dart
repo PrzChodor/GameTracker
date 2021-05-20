@@ -14,7 +14,7 @@ class GameListItem extends StatefulWidget {
 
   ///Create GameListItem with [game] Game object and bool [isFromList]
   ///
-  ///Optionally can contain callback when this Widget changes 
+  ///Optionally can contain callback when this Widget changes
   ///its state [onStateChange]
   const GameListItem({
     Key? key,
@@ -60,7 +60,8 @@ class _GameListItemState extends State<GameListItem> {
                                 ),
                               ),
                             ).then(
-                              (newState) => _reactToPop(newState, state),
+                              (newState) =>
+                                  _reactToPop(context, newState, state),
                             )
                         : () => Navigator.pop(context, state),
                     child: SizedBox(
@@ -154,7 +155,7 @@ class _GameListItemState extends State<GameListItem> {
                                           color: CustomColors.backgroundColor,
                                         ),
                                         onPressed: () {
-                                        //Call the function if exist
+                                          //Call the function if exist
                                           if (widget.onStateChange != null) {
                                             widget.onStateChange!(true);
                                           }
@@ -245,8 +246,8 @@ class _GameListItemState extends State<GameListItem> {
   }
 
   ///If this widget is from list check if state changed while it was expanded
-  void _reactToPop(
-      GameListItemState newState, GameListItemState previousState) {
+  void _reactToPop(BuildContext context, GameListItemState newState,
+      GameListItemState previousState) {
     if (newState != previousState) {
       if (widget.onStateChange != null) {
         if (newState is NotAdded)
